@@ -24,6 +24,8 @@ public class DepartmentAction extends BaseAction<Department>{
 	private Log log = LogFactory.getLog(this.getClass());
 	
 	public String list() throws Exception {
+		System.out.println("------------------");
+		
 		Map<String, Object> request = (Map<String, Object>) ActionContext.getContext().get("request");
 		
 		//查找所有的顶级部门,顶级部门没有上级部门
