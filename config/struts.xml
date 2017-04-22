@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!--解决乱码    -->
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<!-- 配置为开发模式 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 配置扩展名为action -->
+	<constant name="struts.action.extension" value="action" />
+    <!-- 把主题配置为simple -->
+    <constant name="struts.ui.theme" value="simple" />
+
+	<package name="default" namespace="/" extends="struts-default,json-default">
+		
+		<!-- 用户管理 -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">user_list</result>
+			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result>
+			<result name="index">/WEB-INF/jsp/homeAction/index.jsp</result>
+		</action>
+		
+		<!-- 部门管理 -->
+		<action name="department_*" class="departmentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/departmentAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/departmentAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">department_list</result>
+		</action>			
+
+		<!-- 岗位管理 -->
+		<action name="role_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/roleAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/roleAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">role_list</result>
+			<result name="privilegeUI">/WEB-INF/jsp/roleAction/privilegeUI.jsp</result>
+		</action>			
+
+		<!-- 首页action -->
+		<action name="home_*" class="homeAction" method="{1}">
+			<result name="index">/WEB-INF/jsp/homeAction/index.jsp</result>
+			<result name="top">/WEB-INF/jsp/homeAction/top.jsp</result>
+			<result name="left">/WEB-INF/jsp/homeAction/left.jsp</result>
+			<result name="right">/WEB-INF/jsp/homeAction/right.jsp</result>
+			<result name="bottom">/WEB-INF/jsp/homeAction/bottom.jsp</result>
+			<result name="toIndex" type="redirectAction">index</result>
+		</action>
+	</package>
+	
+</struts>

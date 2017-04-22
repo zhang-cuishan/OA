@@ -1,0 +1,28 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+
+	<!-- 数据库信息（连接信息写到spring的配置文件中） -->
+	<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+	<!-- 
+		<property name="connection.url">jdbc:mysql:///itcastoa_20120216</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+	-->
+
+	<!-- 其他配置 -->
+	<property name="show_sql">true</property>
+	<property name="hbm2ddl.auto">update</property>
+
+	<!-- 导入映射配置 --> 
+	<mapping resource="com/shizongger/oa/domain/User.hbm.xml" />
+	<mapping resource="com/shizongger/oa/domain/Role.hbm.xml" />
+	<mapping resource="com/shizongger/oa/domain/Department.hbm.xml" />
+	<mapping resource="com/shizongger/oa/domain/Privilege.hbm.xml" />
+	
+</session-factory>
+</hibernate-configuration>
