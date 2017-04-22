@@ -24,7 +24,6 @@ public class DepartmentAction extends BaseAction<Department>{
 	private Log log = LogFactory.getLog(this.getClass());
 	
 	public String list() throws Exception {
-		System.out.println("------------------");
 		
 		Map<String, Object> request = (Map<String, Object>) ActionContext.getContext().get("request");
 		
