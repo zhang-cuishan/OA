@@ -23,6 +23,7 @@
 	<mapping resource="com/shizongger/oa/domain/Role.hbm.xml" />
 	<mapping resource="com/shizongger/oa/domain/Department.hbm.xml" />
 	<mapping resource="com/shizongger/oa/domain/Privilege.hbm.xml" />
+	<mapping resource="com/shizongger/oa/domain/Forum.hbm.xml" />
 	
 </session-factory>
 </hibernate-configuration>

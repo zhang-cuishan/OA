@@ -68,6 +68,13 @@
 			<result name="bottom">/WEB-INF/jsp/homeAction/bottom.jsp</result>
 			<result name="toIndex" type="redirectAction">index</result>
 		</action>
+		
+		<!-- 板块管理action -->
+		<action name="forumManage_*" class="forumManageAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/forumManage/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/forumManage/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">forumManage_list</result>
+		</action>
 	</package>
 	
 </struts>
