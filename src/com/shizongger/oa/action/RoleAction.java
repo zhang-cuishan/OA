@@ -111,21 +111,18 @@ public class RoleAction extends BaseAction<Role> {
 	 * @throws Exception 抛出异常
 	 */
 	public String privilegeUI() throws Exception {
+		//准备回显数据
 		Role role = roleService.selectById(model.getId());
 		ActionContext.getContext().getValueStack().push(role);
-
-		//本角色对应的权限
+		
 		if(role.getPrivileges() != null) {
-			Set<Privilege> privileges = role.getPrivileges();
-			privilegeIds = new Long[privileges.size()];
+			privilegeIds = new Long[role.getPrivileges().size()];
 			int index = 0;
-			for(Privilege privilege : privileges) {
-				privilegeIds[index++] = privilege.getId();
+			for(Privilege priv : role.getPrivileges()) {
+				privilegeIds[index++] = priv.getId();
 			}
 		}
-		log.debug("privilegeIds数组:" + privilegeIds);
-		
-		// 准备数据 privilegeList
+		//准备数据privilegeList
 		List<Privilege> privilegeList = privilegeService.selectAll();
 		ActionContext.getContext().put("privilegeList", privilegeList);
 		
@@ -140,13 +137,6 @@ public class RoleAction extends BaseAction<Role> {
 	public String setPrivilege() throws Exception {
 		//1.从数据库中取出role角色对象
 		Role role = roleService.selectById(model.getId());
-		
-//		Set<Privilege> privileges = new HashSet<Privilege>();
-//		遍历privilegeIds数组，将元素添加到hashset里面去
-//		for(int i = 0; i < privilegeIds.length; i++) {
-//			Privilege privilege = privilegeService.selectById(privilegeIds[i]);
-//			privileges.add(privilege);
-//		}
 		
 		//一步到位，直接根据id数组查询所有的权限
 		List<Privilege> privilegeList = privilegeService.getByIds(privilegeIds);

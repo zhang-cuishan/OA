@@ -1,9 +1,12 @@
 package com.shizongger.oa.domain;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  * 用户实体
@@ -136,11 +139,52 @@ public class User {
 		log.debug(privilegeName + "---没有权限---");
 		return false;
 	}
+	
+	/**
+	 * 判断本用户是否有指定URL的权限
+	 * 
+	 * @param privUrl
+	 * @return
+	 */
+	public boolean hasPrivilegeByUrl(String privUrl) {
+		// 超级管理有所有的权限
+		if (isAdmin()) {
+			return true;
+		}
+
+		// >> 去掉后面的参数
+		int pos = privUrl.indexOf("?");
+		if (pos > -1) {
+			privUrl = privUrl.substring(0, pos);
+		}
+		// >> 去掉UI后缀
+		if (privUrl.endsWith("UI")) {
+			privUrl = privUrl.substring(0, privUrl.length() - 2);
+		}
+
+		// 如果本URL不需要控制，则登录用户就可以使用
+		Collection<String> allPrivilegeUrls = (Collection<String>) ActionContext.getContext().getApplication().get("allPrivilegeUrls");
+		if (!allPrivilegeUrls.contains(privUrl)) {
+			return true;
+		} else {
+			// 普通用户要判断是否含有这个权限
+			for (Role role : roles) {
+				for (Privilege priv : role.getPrivileges()) {
+					if (privUrl.equals(priv.getUrl())) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+
+	/**
+	 * 判断本用户是否是超级管理员
+	 * 
+	 * @return
+	 */	
+	public boolean isAdmin() {
+		return "admin".equals(loginName);
+	}
 }
-
-
-
-
-
-
-

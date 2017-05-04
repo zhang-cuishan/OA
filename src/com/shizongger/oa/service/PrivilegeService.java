@@ -1,5 +1,6 @@
 package com.shizongger.oa.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.shizongger.oa.domain.Privilege;
@@ -54,4 +55,6 @@ public interface PrivilegeService {
 	 * @return
 	 */
 	public Privilege selectById(Long id);
+
+	public Collection<String> getAllPrivilegeUrls();
 }

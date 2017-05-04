@@ -1,5 +1,6 @@
 package com.shizongger.oa.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,14 @@ public class PrivilegeServiceImpl extends DaoSupportImpl<Privilege> implements P
 		.list();
 		
 		return topPrivletList;
+	}
+
+	@Override
+	@Transactional
+	public Collection<String> getAllPrivilegeUrls() {
+		return getSession().createQuery(//
+				"SELECT DISTINCT p.url FROM Privilege p WHERE p.url IS NOT NULL")//
+				.list();
 	}
 
 }

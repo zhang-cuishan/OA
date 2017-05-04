@@ -1,5 +1,6 @@
 package com.shizongger.oa.action;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -36,7 +37,8 @@ public class MyServletContextListener implements ServletContextListener {
 		//将权限list放到比application作用域还大的ServletContext
 		sc.setAttribute("topPrivilegeList", topPrivilegeList);
 		
-		log.debug("权限列表的长度:" + topPrivilegeList.size());
-		log.debug("------初始化监听器------");
+		// 准备数据：allPrivilegeUrls
+		Collection<String> allPrivilegeUrls = privilegeService.getAllPrivilegeUrls();
+		sc.setAttribute("allPrivilegeUrls", allPrivilegeUrls);		
 	}
 }

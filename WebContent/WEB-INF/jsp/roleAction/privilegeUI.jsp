@@ -1,11 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.shizongger.oa.domain.*" %> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <html>
 <head>
 	<title>配置权限</title>
-	<%@ include file="/WEB-INF/jsp/public/commons.jspf" %>
+    <%@ include file="/WEB-INF/jsp/public/commons.jspf" %>
+	<script language="javascript" src="${pageContext.request.contextPath}/script/jquery_treeview/jquery.treeview.js"></script>
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/style/blue/file.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/script/jquery_treeview/jquery.treeview.css" />
+	<script type="text/javascript">
+		$(function(){
+			// 指定事件处理函数
+			$("[name=privilegeIds]").click(function(){
+				
+				// 当选中或取消一个权限时，也同时选中或取消所有的下级权限
+				$(this).siblings("ul").find("input").attr("checked", this.checked);
+				
+				// 当选中一个权限时，也要选中所有的直接上级权限
+				if(this.checked == true){
+					$(this).parents("li").children("input").attr("checked", true);
+				}
+				
+			});
+		});	
+	</script>
 </head>
 <body>
 
@@ -22,24 +38,23 @@
 
 <!--显示表单内容-->
 <div id="MainArea">
-    <form action="role_setPrivilege.action">
+    <s:form action="role_setPrivilege">
+    	<s:hidden name="id"></s:hidden>
+    
         <div class="ItemBlock_Title1"><!-- 信息说明 --><div class="ItemBlock_Title1">
-        	<img src="${pageContext.request.contextPath }/style/blue/images/item_point.gif" width="4" height="7" border="0"> 正在为【${name }】配置权限 </div> 
+        	<img border="0" width="4" height="7" src="${pageContext.request.contextPath}/style/blue/images/item_point.gif" /> 正在为【${name}】配置权限 </div> 
         </div>
         
-        <!-- 隐藏表单 -->
-		<input type="hidden" name="id" value="${id }" />
-		        
         <!-- 表单内容显示 -->
         <div class="ItemBlockBorder">
             <div class="ItemBlock">
-                <table class="mainForm" cellspacing="0" cellpadding="0">
+                <table cellpadding="0" cellspacing="0" class="mainForm">
 					<!--表头-->
 					<thead>
-						<tr id="TableTitle" valign="MIDDLE" align="LEFT">
-							<td style="padding-left: 7px;" width="300px">
+						<tr align="LEFT" valign="MIDDLE" id="TableTitle">
+							<td width="300px" style="padding-left: 7px;">
 								<!-- 如果把全选元素的id指定为selectAll，并且有函数selectAll()，就会有错。因为有一种用法：可以直接用id引用元素 -->
-								<input id="cbSelectAll" onClick="$('[name=privilegeIds]').attr('checked', this.checked)" type="CHECKBOX">
+								<input type="checkbox" id="cbSelectAll" onClick="$('[name=privilegeIds]').attr('checked', this.checked)"/>
 								<label for="cbSelectAll">全选</label>
 							</td>
 						</tr>
@@ -48,16 +63,32 @@
 			   		<!--显示数据列表-->
 					<tbody id="TableData">
 						<tr class="TableDetail1">
-							<!-- 显示权限树 -->
 							<td>
-								<ul id="tree" class="treeview">
-									<c:forEach items="${privilegeList }" var="privilege">
-									<li id="li_128">
-										<input name="privilegeIds" type="checkbox" value="${privilege.id }">
-										<label for="cb_128"><span class="folder" id="128">${privilege.name }</span></label>
-									</li>									
-									</c:forEach>
-								</ul>
+<ul id="tree">
+<s:iterator value="#application.topPrivilegeList">
+	<li>
+		<input type="checkbox" name="privilegeIds" value="${id}" id="cb_${id}" <s:property value="%{id in privilegeIds ? 'checked' : ''}"/> />
+		<label for="cb_${id}"><span class="folder">${name}</span></label>
+		<ul>
+		<s:iterator value="children">
+			<li>
+				<input type="checkbox" name="privilegeIds" value="${id}" id="cb_${id}" <s:property value="%{id in privilegeIds ? 'checked' : ''}"/> />
+				<label for="cb_${id}"><span class="folder">${name}</span></label>
+				<ul>
+				<s:iterator value="children">
+					<li>
+						<input type="checkbox" name="privilegeIds" value="${id}" id="cb_${id}" <s:property value="%{id in privilegeIds ? 'checked' : ''}"/> />
+						<label for="cb_${id}"><span class="folder">${name}</span></label>
+					</li>
+				</s:iterator>
+				</ul>
+			</li>		
+		</s:iterator>
+		</ul>
+	</li>
+</s:iterator>
+</ul>
+							
 							</td>
 						</tr>
 					</tbody>
@@ -65,12 +96,16 @@
             </div>
         </div>
         
+        <script type="text/javascript">
+        	$("#tree").treeview();
+        </script>
+        
         <!-- 表单操作 -->
         <div id="InputDetailBar">
-            <input src="${pageContext.request.contextPath }/style/images/save.png" type="image">
-            <a href="javascript:history.go(-1);"><img src="${pageContext.request.contextPath }/style/images/goBack.png"></a>
+            <input type="image" src="${pageContext.request.contextPath}/style/images/save.png"/>
+            <a href="javascript:history.go(-1);"><img src="${pageContext.request.contextPath}/style/images/goBack.png"/></a>
         </div>
-    </form>
+    </s:form>
 </div>
 
 <div class="Description">
