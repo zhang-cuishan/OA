@@ -6,6 +6,12 @@
 	<%@ include file="/WEB-INF/jsp/public/commons.jspf" %>    
     <script type="text/javascript">
     </script>
+    <style type="text/css">
+    	.disabled{
+    		color: gray;
+    		cursor: pointer;
+    	}    
+    </style>
 </head>
 <body>
 
@@ -33,32 +39,33 @@
 
 		<!--显示数据列表-->
         <tbody id="TableData" class="dataContainer" datakey="forumList">
-			
-        <tr class="TableDetail1 demodata_record">
-				<td>JavaSE/JavaEE&nbsp;</td>
-				<td>Java开发有关的讨论都过来发帖&nbsp;</td>
-				<td><a onclick="return delConfirm()" href="list.html">删除</a>
-					<a href="saveUI.html">修改</a>
-					<a href="#">上移</a>
-					<a href="#">下移</a>
+        
+        <!-- 遍历forumList -->
+        <s:iterator value="#forumList" status="status">
+			<tr class="TableDetail1 demodata_record">
+				<td>${name }&nbsp;</td>
+				<td>${description }&nbsp;</td>
+				<td>
+					<s:a action="forumManage_delete?id=%{id}" onclick="return delConfirm()">删除</s:a>
+					<s:a action="forumManage_editUI?id=%{id }">修改</s:a>
+					<!-- 最上面不能往上移 -->
+					<s:if test="#status.first">
+						<span class="disabled">上移</span>
+					</s:if>
+					<s:else>
+						<s:a action="forumManage_moveUp?id=%{id }">上移</s:a>
+					</s:else>
+					<!-- 最下面的不能再往下移动 -->
+					<s:if test="#status.last">
+						<span class="disabled">下移</span>
+					</s:if>
+					<s:else>
+						<s:a action="forumManage_moveDown?id=%{id }">下移</s:a>
+					</s:else>
 				</td>
-			</tr><tr class="TableDetail1 demodata_record">
-				<td>新功能建议&nbsp;</td>
-				<td>把好的想法、先进思想和理念都随时提出来，供产品修改时使用&nbsp;</td>
-				<td><a onclick="return delConfirm()" href="list.html">删除</a>
-					<a href="saveUI.html">修改</a>
-					<a href="#">上移</a>
-					<a href="#">下移</a>
-				</td>
-			</tr><tr class="TableDetail1 demodata_record">
-				<td>灌水专区&nbsp;</td>
-				<td>大家可以尽情的来这里灌水&nbsp;</td>
-				<td><a onclick="return delConfirm()" href="list.html">删除</a>
-					<a href="saveUI.html">修改</a>
-					<a href="#">上移</a>
-					<a href="#">下移</a>
-				</td>
-			</tr></tbody>
+			</tr>
+		</s:iterator>
+		</tbody>
     </table>
     
     <!-- 其他功能超链接 -->

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.shizongger.oa.service.DepartmentService;
+import com.shizongger.oa.service.ForumService;
 import com.shizongger.oa.service.PrivilegeService;
 import com.shizongger.oa.service.RoleService;
 import com.shizongger.oa.service.UserService;
@@ -27,6 +28,9 @@ public abstract class BaseAction<T> extends ActionSupport implements ModelDriven
 	
 	@Autowired
 	protected PrivilegeService privilegeService;
+	
+	@Autowired
+	protected ForumService forumService;
 	
 	public BaseAction() {
 		try {

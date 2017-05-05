@@ -22,7 +22,10 @@
 
 <!--显示表单内容-->
 <div id="MainArea">
-    <form action="list.html">
+	<s:form action="forumManage_%{id == null ? 'add' : 'edit'}">
+		<!-- 隐藏表单内容 -->
+		<s:hidden name="id" value="%{#request.forum.id}"></s:hidden>
+		
         <div class="ItemBlock_Title1"><!-- 信息说明<DIV CLASS="ItemBlock_Title1">
         	<IMG BORDER="0" WIDTH="4" HEIGHT="7" SRC="${pageContext.request.contextPath }/style/blue/images/item_point.gif" /> 版块信息 </DIV>  -->
         </div>
@@ -31,15 +34,17 @@
         <div class="ItemBlockBorder">
             <div class="ItemBlock">
                 <table class="mainForm" cellspacing="0" cellpadding="0">
-                    <tbody><tr>
-                        <td width="100">版块名称</td>
-                        <td><input name="name" class="InputStyle" type="text"> *</td>
-                    </tr>
-                    <tr>
-                        <td>版块说明</td>
-                        <td><textarea name="description" class="TextareaStyle"></textarea></td>
-                    </tr>
-                </tbody></table>
+                    <tbody>
+	                    <tr>
+	                        <td width="100">版块名称</td>
+	                        <td><s:textfield name="name" cssClass="InputStyle" value="%{#request.forum.name}" > *</s:textfield></td>
+	                    </tr>
+	                    <tr>
+	                        <td>版块说明</td>
+	                        <td><s:textarea name="description" cssClass="TextareaStyle" value="%{#request.forum.description}"></s:textarea></td>
+	                    </tr>
+                	</tbody>
+                </table>
             </div>
         </div>
         
@@ -48,7 +53,7 @@
             <input src="${pageContext.request.contextPath }/style/images/save.png" type="image">
             <a href="javascript:history.go(-1);"><img src="${pageContext.request.contextPath }/style/images/goBack.png"></a>
         </div>
-    </form>
+    </s:form>
 </div>
 
 <div class="Description">
