@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.shizongger.oa.domain">
+
+	<class name="Topic" table="itcast_topic">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="title" />
+		<property name="content" type="text" length="65536"/>
+		
+		<!-- author属性,本类与User类的多对一关系 -->
+		<many-to-one name="author" class="User" column="authorId"></many-to-one>
+		
+		<property name="postTime" type="timestamp"/>
+		<property name="ipAddress" />
+		
+		<!-- forum属性，本类与Forum的多对一关系 -->		
+		<many-to-one name="forum" class="Forum" column="forumId"></many-to-one>
+		
+		<!-- replies属性，本类与Reply类一对多关系 -->
+		<set name="replies">
+			<key column="topicId"></key>
+			<one-to-many class="Reply"/>
+		</set>
+		
+		<property name="type" />
+		<property name="replyCount" />
+		
+		<!-- lastReply属性，本类与Reply类的一对一关系 -->
+		<many-to-one name="lastReply" class="Reply" column="lastReplyId" unique="true"></many-to-one>
+		
+		<property name="lastUpdateTime" type="timestamp"/>
+	</class>
+</hibernate-mapping>
